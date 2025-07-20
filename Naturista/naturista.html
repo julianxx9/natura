@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaturaEsencia - Tu Tienda Naturista</title>
+
+    <!-- Importación de Fuentes (de tu JSON) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Montserrat:wght@400;600;700&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    
+    <!-- Importación de Iconos (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="icon" href="natura.ico" type="image/x-icon">
+
+    <style>
+        /* 
+        ================================================================
+        RAÍZ DE DISEÑO - Basado en colores.json
+        ================================================================
+        */
+        :root {
+            /* Colores Light */
+            --background: oklch(0.9711 0.0074 80.7211);
+            --foreground: oklch(0.3000 0.0358 30.2042);
+            --card: oklch(0.9711 0.0074 80.7211);
+            --card-foreground: oklch(0.3000 0.0358 30.2042);
+            --popover: oklch(0.9711 0.0074 80.7211);
+            --popover-foreground: oklch(0.3000 0.0358 30.2042);
+            --primary: oklch(0.5234 0.1347 144.1672);
+            --primary-foreground: oklch(1.0000 0 0);
+            --secondary: oklch(0.9571 0.0210 147.6360);
+            --secondary-foreground: oklch(0.4254 0.1159 144.3078);
+            --muted: oklch(0.9370 0.0142 74.4218);
+            --muted-foreground: oklch(0.4495 0.0486 39.2110);
+            --accent: oklch(0.8952 0.0504 146.0366);
+            --accent-foreground: oklch(0.4254 0.1159 144.3078);
+            --destructive: oklch(0.5386 0.1937 26.7249);
+            --destructive-foreground: oklch(1.0000 0 0);
+            --border: oklch(0.8805 0.0208 74.6428);
+            --input: oklch(0.8805 0.0208 74.6428);
+            --ring: oklch(0.5234 0.1347 144.1672);
+
+            /* Tipografía */
+            --font-sans: 'Montserrat', sans-serif;
+            --font-serif: 'Merriweather', serif;
+            --font-mono: 'Source Code Pro', monospace;
+            
+            /* Sizing */
+            --radius: 0.5rem;
+            
+            /* Efectos */
+            --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
+            --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
+            --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
+        }
+
+        .dark {
+            /* Colores Dark */
+            --background: oklch(0.2683 0.0279 150.7681);
+            --foreground: oklch(0.9423 0.0097 72.6595);
+            --card: oklch(0.3327 0.0271 146.9867);
+            --card-foreground: oklch(0.9423 0.0097 72.6595);
+            --popover: oklch(0.3327 0.0271 146.9867);
+            --popover-foreground: oklch(0.9423 0.0097 72.6595);
+            --primary: oklch(0.6731 0.1624 144.2083);
+            --primary-foreground: oklch(0.2157 0.0453 145.7256);
+            --secondary: oklch(0.3942 0.0265 142.9926);
+            --secondary-foreground: oklch(0.8970 0.0166 142.5518);
+            --muted: oklch(0.3327 0.0271 146.9867);
+            --muted-foreground: oklch(0.8579 0.0174 76.0955);
+            --accent: oklch(0.5752 0.1446 144.1813);
+            --accent-foreground: oklch(0.9423 0.0097 72.6595);
+            --destructive: oklch(0.5386 0.1937 26.7249);
+            --destructive-foreground: oklch(0.9423 0.0097 72.6595);
+            --border: oklch(0.3942 0.0265 142.9926);
+            --input: oklch(0.3942 0.0265 142.9926);
+            --ring: oklch(0.6731 0.1624 144.2083);
+        }
+        
+        /* 
+        ================================================================
+        ESTILOS GENERALES
+        ================================================================
+        */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 0;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--card-foreground);
+        }
+        
+        h1 { font-size: 3rem; margin-bottom: 1rem; }
+        h2 { font-size: 2.25rem; margin-bottom: 2rem; text-align: center; }
+        h3 { font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--primary); }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--muted-foreground);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+        a:hover {
+            opacity: 0.8;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        /* 
+        ================================================================
+        COMPONENTES Y SECCIONES
+        ================================================================
+        */
+
+        /* Header y Navegación */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: color-mix(in srgb, var(--background), transparent 20%);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .main-nav a {
+            margin: 0 1rem;
+            font-weight: 600;
+            color: var(--card-foreground);
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--foreground);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 100vh;
+            background: url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1974&auto=format&fit=crop') no-repeat center center/cover;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background);
+            opacity: 0.8;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+        }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            color: var(--primary);
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--card-foreground);
+        }
+        .hero-buttons {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* Sección "Quiénes Somos" */
+        #quienes-somos .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        #quienes-somos img {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Sección Productos */
+        #productos {
+            background-color: var(--muted);
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .product-card {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+        }
+        .product-card h3 {
+            color: var(--secondary-foreground);
+        }
+        
+        /* Sección Testimonios */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .testimonial-card {
+            background-color: var(--accent);
+            color: var(--accent-foreground);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--accent-foreground);
+        }
+        .testimonial-card cite {
+            font-weight: bold;
+            font-style: normal;
+            display: block;
+            text-align: right;
+            color: var(--secondary-foreground);
+        }
+
+        /* Sección Contacto */
+        #contacto {
+            background-color: var(--muted);
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background-color: var(--card);
+            padding: 3rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+        }
+        .contact-info ul {
+            list-style: none;
+        }
+        .contact-info li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        .contact-info i {
+            font-size: 1.5rem;
+            color: var(--primary);
+            width: 30px;
+            text-align: center;
+        }
+        .map-container {
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: var(--card);
+            color: var(--muted-foreground);
+            text-align: center;
+            padding: 2rem 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .hero-content h1 { font-size: 2.8rem; }
+            .main-nav { display: none; /* Simplificado para el ejemplo */ }
+            #quienes-somos .container, .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="#" class="logo">NaturaEsencia</a>
+        <nav class="main-nav">
+            <a href="#quienes-somos">Quiénes Somos</a>
+            <a href="#productos">Productos</a>
+            <a href="#testimonios">Testimonios</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar modo de color">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+    </header>
+
+    <main>
+        <!-- ======== HERO SECTION ======== -->
+        <section id="hero" class="hero">
+            <div class="hero-content">
+                <h1>Conecta con la Naturaleza, Nutre tu Bienestar</h1>
+                <p>Descubre el poder de lo natural en nuestra selección de productos orgánicos, suplementos y remedios para un estilo de vida saludable y en equilibrio.</p>
+                <div class="hero-buttons">
+                    <a href="#productos" class="btn btn-primary">Ver Productos</a>
+                    <a href="#contacto" class="btn btn-secondary">Visítanos</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== QUIÉNES SOMOS ======== -->
+        <section id="quienes-somos">
+            <div class="container">
+                <div class="about-image">
+                    <img src="tienda.jpeg" alt="Interior de la tienda naturista">
+                </div>
+                <div class="about-text">
+                    <h2>Nuestra Esencia, Tu Bienestar</h2>
+                    <p>En NaturaEsencia, creemos que la naturaleza nos provee todo lo necesario para vivir una vida plena y saludable. Nacimos de la pasión por compartir los beneficios de productos puros, éticos y efectivos.</p>
+                    <p>Nuestra misión es ser tu guía de confianza en el camino hacia el bienestar, ofreciendo no solo productos de la más alta calidad, sino también el conocimiento y el apoyo para que tomes las mejores decisiones para tu salud.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== PRODUCTOS ======== -->
+        <section id="productos">
+            <div class="container">
+                <h2>Nuestros Productos Estrella</h2>
+                <div class="product-grid">
+                    <article class="product-card">
+                        <img src="escencia.jpeg" alt="Infusiones y tés">
+                        <h3>Infusiones Orgánicas</h3>
+                        <p>Una selección de tés e infusiones para relajar, energizar y equilibrar tu cuerpo y mente.</p>
+                    </article>
+                    <article class="product-card">
+                        <img src="aceite.jpeg" alt="Aceites esenciales">
+                        <h3>Aceites Esenciales Puros</h3>
+                        <p>Descubre el poder de la aromaterapia con nuestros aceites 100% puros y de origen sostenible.</p>
+                    </article>
+                    <article class="product-card">
+                        <img src="suplemento.jpeg" alt="Suplementos naturales">
+                        <h3>Suplementos Naturales</h3>
+                        <p>Vitaminas, minerales y extractos de plantas para complementar tu nutrición y potenciar tu salud.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== TESTIMONIOS ======== -->
+        <section id="testimonios">
+            <div class="container">
+                <h2>Lo que dicen nuestros clientes</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <p>"Desde que descubrí NaturaEsencia, mi enfoque en la salud ha cambiado por completo. La calidad de los productos es insuperable y el personal es increíblemente amable y conocedor."</p>
+                        <cite>- Ana Pérez</cite>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"Los aceites esenciales son una maravilla. Me han ayudado mucho con el estrés del día a día. ¡Totalmente recomendados! Es mi tienda de confianza."</p>
+                        <cite>- Carlos Gómez</cite>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"Finalmente encontré un lugar que se preocupa de verdad por el origen y la calidad de sus productos. Comprar aquí me da paz mental y bienestar físico."</p>
+                        <cite>- Sofía Martínez</cite>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======== CONTACTO Y DIRECCIÓN ======== -->
+        <section id="contacto">
+            <div class="container">
+                <h2>Visítanos y Contáctanos</h2>
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h3>Información de Contacto</h3>
+                        <p>Estamos aquí para ayudarte. No dudes en llamarnos, escribirnos o visitarnos en nuestra tienda.</p>
+                        <ul>
+                            <li><i class="fa-solid fa-location-dot"></i> Av. Siempre Viva 123, Sprinfield</li>
+                            <li><i class="fa-solid fa-phone"></i> +1 (555) 123-4567</li>
+                            <li><i class="fa-solid fa-envelope"></i> hola@naturaesencia.com</li>
+                            <li><i class="fa-solid fa-clock"></i> Lunes a Sábado: 9:00 - 19:00</li>
+                        </ul>
+                    </div>
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126748.56348393527!2d-74.08412215904257!3d4.648283546522363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9bfd2da6cb29%3A0x239d635520a33914!2sBogot%C3%A1!5e0!3m2!1ses!2sco!4v1701198642878!5m2!1ses!2sco" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2024 NaturaEsencia. Todos los derechos reservados.</p>
+        <p><strong>Hecho por Kreinet</strong></p>
+    </footer>
+    
+    <script>
+        // Lógica para el interruptor de modo claro/oscuro
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+
+        // Función para aplicar el tema
+        const applyTheme = (theme) => {
+            if (theme === 'dark') {
+                htmlElement.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('dark');
+            }
+            localStorage.setItem('theme', theme);
+        };
+
+        // Detectar preferencia del sistema y del localStorage
+        const preferredTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyTheme(preferredTheme);
+
+        // Event listener para el botón
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+        });
+
+        // Escuchar cambios en la preferencia del sistema
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            // Solo cambiar si no hay una preferencia guardada en localStorage
+            if (!localStorage.getItem('theme')) {
+                applyTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+    </script>
+
+</body>
+</html>
